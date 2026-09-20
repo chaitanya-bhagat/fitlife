@@ -15,4 +15,8 @@ class InMemoryExerciseRepository:
 
         return exercise
 
-    
+    def list(self) -> list[GetExercise]:
+        return list(self._items.values())
+
+    def get(self, exercise_id: int) -> GetExercise | None:
+        return self._items.get(exercise_id)
