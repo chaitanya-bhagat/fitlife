@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from enum import StrEnum
 
 
@@ -25,3 +25,4 @@ class CreateExercise(ExerciseBase):
 class GetExercise(ExerciseBase):
     id: int
 
+    model_config = ConfigDict(from_attributes=True)
