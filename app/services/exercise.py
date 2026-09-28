@@ -1,4 +1,4 @@
-from app.schemas.exercise import CreateExercise, GetExercise
+from app.schemas.exercise import CreateExercise, GetExercise, UpdateExercise
 from app.repositories.exercise import ExerciseRepository
 from app.database.models.exercise import Exercise
 
@@ -15,3 +15,9 @@ class ExerciseService:
 
     async def list(self) -> list[GetExercise]:
         return await self.repository.list()
+
+    async def update(self, exercise_id: int, data: UpdateExercise) -> Exercise | None:
+        return await self.repository.update(exercise_id, data)
+
+    async def delete(self, exercise_id: int) -> bool:
+        return await self.repository.delete(exercise_id)
