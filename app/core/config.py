@@ -5,6 +5,10 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     debug: bool = False
 
+    jwt_secret_key: str
+    jwt_algorithm: str ="HS256"
+    access_token_expire_minutes: int = 30
+
     database_url: str
 
     model_config = SettingsConfigDict(

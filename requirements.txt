@@ -10,3 +10,4 @@ alembic
 psycopg[binary]
 email-validator
 pwdlib[argon2]
+PyJWT>=2.10,<3
