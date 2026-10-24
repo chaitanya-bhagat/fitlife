@@ -1,6 +1,7 @@
 from app.schemas.user import UserRegister, GetUser
 
-from sqlalchemy.ext.asyncio import AsyncSession, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from app.database.models.user import User
 
 
