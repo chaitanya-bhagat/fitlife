@@ -24,7 +24,12 @@ async def create_workout_plan(
     current_user: User = Depends(get_current_user),
     service: WorkoutPlanService = Depends(get_workout_plan_service),
 ) -> GetWorkoutPlan:
-    return await service.create(
-        user_id=current_user.id,
-        data=payload
-    )
+    return await service.create(user_id=current_user.id, data=payload)
+
+
+@router.get("", response_model=list[GetWorkoutPlan], status_code=status.HTTP_200_OK)
+async def get_user_plan(
+    current_user: User = Depends(get_current_user),
+    service: WorkoutPlanService = Depends(get_workout_plan_service),
+) -> list[GetWorkoutPlan]:
+    return await service.get_user_plan(user_id=current_user.id)
