@@ -3,12 +3,33 @@ from app.repositories.workout_plan import WorkoutPlanRepository
 from app.schemas.workout_plan import GetWorkoutPlan, CreateWorkoutPlan
 
 
+class WorkoutPlanNotFoundError(Exception):
+    pass
+
+
 class WorkoutPlanService:
     def __init__(self, repository: WorkoutPlanRepository) -> None:
         self.repository = repository
 
     async def create(self, user_id: int, data: CreateWorkoutPlan) -> WorkoutPlan:
-        return await self.repository.create(user_id=user_id, name=data.name, description=data.description)
+        return await self.repository.create(
+            user_id=user_id, name=data.name, description=data.description
+        )
 
-    async def get_user_plan(self, user_id: int)->list[WorkoutPlan]:
+    async def get_user_plan(self, user_id: int) -> list[WorkoutPlan]:
         return await self.repository.get_by_user_id(user_id)
+
+    async def get_by_id(
+        self,
+        plan_id: int,
+        user_id: int,
+    ) -> WorkoutPlan:
+        plan = await self.repository.get_by_id(
+            plan_id=plan_id,
+            user_id=user_id,
+        )
+
+        if plan is None:
+            raise WorkoutPlanNotFoundError()
+
+        return plan

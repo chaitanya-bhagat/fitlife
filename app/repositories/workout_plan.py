@@ -30,3 +30,10 @@ class WorkoutPlanRepository:
         result = await self.session.execute(statement)
         return list(result.scalar().all())
 
+    async def get_by_id(self, plan_id: int, user_id: int) -> WorkoutPlan | None:
+        statement = select(WorkoutPlan).where(
+            WorkoutPlan.id == plan_id,
+            WorkoutPlan.user_id == user_id,
+        )
+        result = await self.session.execute(statement)
+        return result.scalar_one_or_none()
