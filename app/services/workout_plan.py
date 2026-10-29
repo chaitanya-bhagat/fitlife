@@ -1,6 +1,10 @@
 from app.database.models.workout_plan import WorkoutPlan
 from app.repositories.workout_plan import WorkoutPlanRepository
-from app.schemas.workout_plan import GetWorkoutPlan, CreateWorkoutPlan
+from app.schemas.workout_plan import (
+    GetWorkoutPlan,
+    CreateWorkoutPlan,
+    UpdateWorkoutPlan,
+)
 
 
 class WorkoutPlanNotFoundError(Exception):
@@ -33,3 +37,26 @@ class WorkoutPlanService:
             raise WorkoutPlanNotFoundError()
 
         return plan
+
+    async def update(
+        self, plan_id: int, user_id: int, data: UpdateWorkoutPlan
+    ) -> WorkoutPlan:
+        plan = await self.repository.get_by_id(plan_id=plan_id, user_id=user_id)
+
+        changes = data.model_dump(exclude_unset=True)
+        if "name" in changes and changes["name"] is None:
+            raise ValueError("Workout plan name can not be null")
+
+        return await self.repository.update(plan=plan, changes=changes)
+
+    async def delete(
+        self,
+        plan_id: int,
+        user_id: int,
+    ) -> None:
+        plan = await self.get_by_id(
+            plan_id=plan_id,
+            user_id=user_id,
+        )
+
+        await self.repository.delete(plan)

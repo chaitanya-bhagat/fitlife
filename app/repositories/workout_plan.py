@@ -37,3 +37,15 @@ class WorkoutPlanRepository:
         )
         result = await self.session.execute(statement)
         return result.scalar_one_or_none()
+
+    async def update(self, plan: WorkoutPlan, changes: dict)->WorkoutPlan:
+        for field, value in changes.items():
+            setattr(plan, field, value)
+
+        await self.session.commit()
+        await self.session.refresh(plan)
+        return plan
+
+    async def delete(self, plan: WorkoutPlan) -> None:
+        await self.session.delete(plan)
+        await self.session.commit()
