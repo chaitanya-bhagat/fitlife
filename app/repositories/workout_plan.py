@@ -28,7 +28,7 @@ class WorkoutPlanRepository:
             .order_by(WorkoutPlan.id.desc())
         )
         result = await self.session.execute(statement)
-        return list(result.scalar().all())
+        return list(result.scalars().all())
 
     async def get_by_id(self, plan_id: int, user_id: int) -> WorkoutPlan | None:
         statement = select(WorkoutPlan).where(
