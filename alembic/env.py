@@ -8,6 +8,7 @@ from alembic import context
 from app.database.base import Base
 from app.database.models.exercise import Exercise
 from app.database.models.user import User
+from app.database.models.workout_plan import WorkoutPlan
 from app.core.config import setiings
 
 # this is the Alembic Config object, which provides
